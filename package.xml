@@ -12,18 +12,20 @@
     </maintainer>
   </maintainers>
   <release>
-    <version>0.21</version>
-    <date>2003-08-22</date>
+    <version>0.22cvs</version>
+    <date>2004-02-14</date>
     <license>PHP License</license>
     <state>alpha</state>
     <notes>
-      * added more search-dirs for linux-traceroute
+      * moved docs/sample.php to docs/examples/example1.php to comply with PEAR-rules
     </notes>
     <filelist>
       <dir name="/" baseinstalldir="Net">
         <file role="php">Traceroute.php</file>
         <dir name="docs" role="doc">
-          <file>sample.php</file>
+          <dir name="examples" role="doc">
+            <file>example1.php</file>
+          </dir> 
         </dir> 
       </dir>
     </filelist>
@@ -59,6 +61,15 @@
         * fixed some names and control-structures according to coding standard
         * moved a sample explaining usage to docs-directory
         * moved class to cvs.php.net; first public release
+      </notes>
+    </release>
+    <release>
+      <version>0.21</version>
+      <date>2003-08-22</date>
+      <license>PHP License</license>
+      <state>alpha</state>
+      <notes>
+        * added more search-dirs for linux-traceroute
       </notes>
     </release>
   </changelog>

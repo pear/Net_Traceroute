@@ -8,6 +8,6 @@
     echo $traceroute->getMessage();
   } else {
     $traceroute->setArgs(array('numeric' => NULL));
-    var_dump($traceroute->traceroute('example.com'));
+    var_dump($traceroute->traceroute('pear.php.net'));
   }
 ?>
