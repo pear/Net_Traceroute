@@ -12,15 +12,12 @@
     </maintainer>
   </maintainers>
   <release>
-    <version>0.20</version>
-    <date>2003-08-17</date>
+    <version>0.21</version>
+    <date>2003-08-22</date>
     <license>PHP License</license>
     <state>alpha</state>
     <notes>
-      * Improved flexibility of result-parser for Linux
-      * fixed some names and control-structures according to coding standard
-      * moved a sample explaining usage to docs-directory
-      * moved class to cvs.php.net; first public release
+      * added more search-dirs for linux-traceroute
     </notes>
     <filelist>
       <dir name="/" baseinstalldir="Net">
@@ -30,9 +27,6 @@
         </dir> 
       </dir>
     </filelist>
-    <deps>
-      <dep type="php" rel="ge" version="4.1.0" />
-    </deps>
   </release>
   <changelog>
     <release>
@@ -53,6 +47,18 @@
         Initial release with implementations for:
         - Linux
         - Windows
+      </notes>
+    </release>
+    <release>
+      <version>0.20</version>
+      <date>2003-08-17</date>
+      <license>PHP License</license>
+      <state>alpha</state>
+      <notes>
+        * Improved flexibility of result-parser for Linux
+        * fixed some names and control-structures according to coding standard
+        * moved a sample explaining usage to docs-directory
+        * moved class to cvs.php.net; first public release
       </notes>
     </release>
   </changelog>
