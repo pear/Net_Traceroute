@@ -18,6 +18,8 @@
 // | Credits:                                                             |
 // | Idea and API originally based upon package Net_Ping                  |
 // +----------------------------------------------------------------------+
+//
+// $Id$
 
 require_once "PEAR.php";
 require_once "OS/Guess.php";
@@ -46,8 +48,7 @@ define('NET_TRACEROUTE_RESULT_UNSUPPORTED_BACKEND',     4);
 * Wrapper class for traceroute calls
 *
 * @author   Stefan Neufeind <pear.neufeind@speedpartner.de>
-* @version  $Revision$
-* @package  Net
+* @package  Net_Traceroute
 * @access   public
 */
 class Net_Traceroute
@@ -179,7 +180,7 @@ class Net_Traceroute
         } else {
             $traceroute_path = exec("which traceroute", $output, $status);
             if ($status != 0) {
-                foreach(array('/usr/bin', '/bin', '/usr/local/bin') as $test) {
+                foreach(array('/usr/sbin', '/sbin', '/usr/bin', '/bin', '/usr/local/bin') as $test) {
                     if ($status != 0) {
                         $traceroute_path = $test.'/traceroute';
                         if (file_exists($traceroute_path)) {
@@ -308,8 +309,7 @@ class Net_Traceroute
 * Container class for Net_Traceroute results
 *
 * @author   Stefan Neufeind <pear.neufeind@speedpartner.de>
-* @version  $Revision$
-* @package  Net
+* @package  Net_Traceroute
 * @access   private
 */
 class Net_Traceroute_Result
@@ -570,7 +570,7 @@ class Net_Traceroute_Result
     *
     * @return string IP address
     * @access public
-    * @see Traceroute_Result::_target_ip
+    * @see Net_Traceroute_Result::_target_ip
     */
     function getTargetIp()
     {
@@ -582,7 +582,7 @@ class Net_Traceroute_Result
     *
     * @return array Hops
     * @access private
-    * @see Traceroute_Result::_hops
+    * @see Net_Traceroute_Result::_hops
     */
     function getHops()
     {
@@ -594,7 +594,7 @@ class Net_Traceroute_Result
     *
     * @return int TTL
     * @access private
-    * @see Traceroute_Result::_ttl
+    * @see Net_Traceroute_Result::_ttl
     */
     function getTTL()
     {
@@ -606,7 +606,7 @@ class Net_Traceroute_Result
     *
     * @return array raw data
     * @access private
-    * @see Traceroute_Result::_raw_data
+    * @see Net_Traceroute_Result::_raw_data
     */
     function getRawData()
     {
@@ -618,7 +618,7 @@ class Net_Traceroute_Result
     *
     * @return string OS_Guess::sysname
     * @access private
-    * @see Traceroute_Result::_sysname
+    * @see Net_Traceroute_Result::_sysname
     */
     function getSystemName()
     {

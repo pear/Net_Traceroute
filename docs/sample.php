@@ -1,4 +1,7 @@
 <?php
+  // Example to illustrate the use of Net_Traceroute
+  // $Id$
+
   require_once "Net/Traceroute.php";
   $traceroute = Net_Traceroute::factory();
   if(PEAR::isError($traceroute)) {
