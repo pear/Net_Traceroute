@@ -24,11 +24,11 @@
     </notes>
     <filelist>
       <dir name="/" baseinstalldir="Net">
-        <file role="php" name="Traceroute.php"/>
+        <file role="php">Traceroute.php</file>
+        <dir name="docs" role="doc">
+          <file>sample.php</file>
+        </dir> 
       </dir>
-      <dir name="docs" role="doc">
-        <file>sample.php</file>
-      </dir> 
     </filelist>
     <deps>
       <dep type="php" rel="ge" version="4.1.0" />
