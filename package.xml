@@ -17,6 +17,7 @@
     <license>PHP License</license>
     <state>alpha</state>
     <notes>
+      * Improved flexibility of result-parser for Linux
       * fixed some names and control-structures according to coding standard
       * moved a sample explaining usage to docs-directory
       * moved class to cvs.php.net; first public release

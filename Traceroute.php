@@ -393,10 +393,8 @@ class Net_Traceroute_Result
     */
     function _prepareParseResult($sysname)
     {
-        return method_exists(
-                             'Net_Traceroute_Result',
-                             '_parseresult'.$sysname
-                            );
+        return in_array(strtolower('_parseresult'.$sysname),
+                        get_class_methods('Net_Traceroute_Result'));
     }
 
     /**
@@ -406,7 +404,7 @@ class Net_Traceroute_Result
     */
     function _parseResult()
     {
-        $this->{'_parseResult' . $this->sysname}();
+        $this->{'_parseResult' . $this->_sysname}();
     }
 
     /**
@@ -418,13 +416,23 @@ class Net_Traceroute_Result
     function _parseResultlinux()
     {
         $raw_data_len = count($this->_raw_data);
+        $dataRow = 0;
+
+        while (empty($this->_raw_data[$dataRow]) && ($dataRow<$raw_data_len)) {
+          $dataRow++;
+        }
         
-        $tempparts        = explode(' ', $this->_raw_data[0]);
+        $tempparts        = explode(' ', $this->_raw_data[$dataRow]);
         $this->_target_ip = trim($tempparts[3], ' (),');
         $this->_ttl       = (int) $tempparts[4];
+        $dataRow++;
+        
+        while (empty($this->_raw_data[$dataRow]) && ($dataRow<$raw_data_len)) {
+          $dataRow++;
+        }
 
         $hops = array();
-        for($dataRow = 3; $dataRow < $raw_data_len; $dataRow++) {
+        while (($dataRow < $raw_data_len) && !empty($this->_raw_data[$dataRow])) {
             $hop = array();
             $parts = explode('  ', substr($this->_raw_data[$dataRow], 4));
             
@@ -452,6 +460,7 @@ class Net_Traceroute_Result
             }
             $hop['responsetimes'] = $responsetimes;
             $hops[] = $hop;
+            $dataRow++;
         }
         $this->_hops = $hops;
     }
@@ -465,7 +474,8 @@ class Net_Traceroute_Result
     function _parseResultwindows()
     {
         $raw_data_len = count($this->_raw_data);
-        $dataRow=0;
+        $dataRow = 0;
+        
         while (empty($this->_raw_data[$dataRow]) && ($dataRow<$raw_data_len)) {
           $dataRow++;
         }
