@@ -21,7 +21,28 @@
 //
 // $Id$
 
+/**
+* Package for handling traceroute outputs
+*
+* This package is an interface to the traceroute/tracert-tool most
+* current OS offer. It parses the output into an easy-to-use array structure.
+* Please note: The parsing is OS-dependepent! So if your OS is currently
+* not supported, please let us know.
+*
+* @author   Stefan Neufeind <pear.neufeind@speedpartner.de>
+* @package  Net_Traceroute
+*/
+
+/**
+* PEAR-base-class, needed for error-handling
+*/
 require_once "PEAR.php";
+
+/**
+* Class for determining the OS
+*
+* Knowning the correct OS is really essential to choose the right parser.
+*/
 require_once "OS/Guess.php";
 
 define('NET_TRACEROUTE_FAILED_MSG', 'execution of traceroute failed');
@@ -36,14 +57,6 @@ define('NET_TRACEROUTE_INVALID_ARGUMENTS',              2);
 define('NET_TRACEROUTE_CANT_LOCATE_TRACEROUTE_BINARY',  3);
 define('NET_TRACEROUTE_RESULT_UNSUPPORTED_BACKEND',     4);
 
-/**************************TODO*******************************************/
-/*
- *
- * - add functionality in Net_Traceroute / Net_Traceroute_Result parser for:
- *   + (all plattforms except Linux and Windows)
- * - reset result buffer
- */
-
 /**
 * Wrapper class for traceroute calls
 *
@@ -56,7 +69,7 @@ class Net_Traceroute
     /**
     * Location where the traceroute program is stored
     *
-    * @var string
+    * @var    string
     * @access private
     */
     var $_traceroute_path = "";
@@ -64,23 +77,15 @@ class Net_Traceroute
     /**
     * Array with the result from the traceroute execution
     *
-    * @var array
+    * @var    array
     * @access private
     */
     var $_result = array();
 
     /**
-    * OS_Guess instance
-    *
-    * @var object
-    * @access private
-    */
-    var $_OS_Guess = "";
-
-    /**
     * OS_Guess->getSysname result
     *
-    * @var string
+    * @var    string
     * @access private
     */
     var $_sysname = "";
@@ -88,7 +93,7 @@ class Net_Traceroute
     /**
     * Traceroute command arguments
     *
-    * @var array
+    * @var    array
     * @access private
     */
     var $_args = array();
@@ -96,7 +101,7 @@ class Net_Traceroute
     /**
     * Indicates if an empty array was given to setArgs (not used yet)
     *
-    * @var boolean
+    * @var    boolean
     * @access private
     */
     var $_noArgs = true;
@@ -104,13 +109,13 @@ class Net_Traceroute
     /**
     * Contains the argument->option relation
     *
-    * @var array
+    * @var    array
     * @access private
     */
     var $_argRelation = array();
 
     /**
-    * Constructor for the Class
+    * Constructor
     *
     * @access private
     */
@@ -124,6 +129,9 @@ class Net_Traceroute
     /**
     * Factory for Net_Traceroute
     *
+    * Call this method to create a new instance of Net_Traceroute
+    *
+    * @return object Net_Traceroute
     * @access public
     */
     function factory()
@@ -142,8 +150,8 @@ class Net_Traceroute
     /**
     * Set the arguments array
     *
-    * @param array $args Hash with options
-    * @return mixed true or PEAR_error
+    * @param  array  $args    Hash with options
+    * @return mixed           true or PEAR_error
     * @access public
     */
     function setArgs($args)
@@ -167,6 +175,7 @@ class Net_Traceroute
     /**
     * Sets the system's path to the traceroute binary
     *
+    * @param  string  $sysname    Systemname which identifies the OS
     * @access private
     */
     function _setTraceroutePath($sysname)
@@ -201,7 +210,7 @@ class Net_Traceroute
     /**
     * Creates the argument list according to platform differences
     *
-    * @return string Argument line
+    * @return string          Argument line
     * @access private
     */
     function _createArgList()
@@ -241,8 +250,8 @@ class Net_Traceroute
     /**
     * Execute traceroute
     *
-    * @param  string    $host   hostname
-    * @return mixed  String on error or array with the result
+    * @param  string $host    hostname or IP of destination
+    * @return object Net_Traceroute_Result
     * @access public
     */
     function traceroute($host)
@@ -267,8 +276,8 @@ class Net_Traceroute
     * Output errors with PHP trigger_error(). You can silence the errors
     * with prefixing a "@" sign to the function call: @Net_Traceroute::traceroute(..);
     *
-    * @param mixed $error a PEAR error or a string with the error message
-    * @return bool false
+    * @param  mixed $error    a PEAR error or a string with the error message
+    * @return bool            false
     * @access private
     * @author Kai Schröder <k.schroeder@php.net>
     */
@@ -284,7 +293,7 @@ class Net_Traceroute
     /**
     * Creates the argument list according to platform differences
     *
-    * @return string Argument line
+    * @return string          Argument line
     * @access private
     */
     function _initArgRelation()
@@ -310,14 +319,14 @@ class Net_Traceroute
 *
 * @author   Stefan Neufeind <pear.neufeind@speedpartner.de>
 * @package  Net_Traceroute
-* @access   private
+* @access   public
 */
 class Net_Traceroute_Result
 {
     /**
     * Hops and associated time in ms
     *
-    * @var array
+    * @var    array
     * @access private
     */
     var $_hops = array();
@@ -325,7 +334,7 @@ class Net_Traceroute_Result
     /**
     * The target's IP Address
     *
-    * @var string
+    * @var    string
     * @access private
     */
     var $_target_ip;
@@ -333,7 +342,7 @@ class Net_Traceroute_Result
     /**
     * The ICMP request's TTL
     *
-    * @var int
+    * @var    int
     * @access private
     */
     var $_ttl;
@@ -341,7 +350,7 @@ class Net_Traceroute_Result
     /**
     * The raw Net_Traceroute::result
     *
-    * @var array
+    * @var    array
     * @access private
     */
     var $_raw_data = array();
@@ -349,7 +358,7 @@ class Net_Traceroute_Result
     /**
     * The Net_Traceroute::_sysname
     *
-    * @var string
+    * @var    string
     * @access private
     */
     var $_sysname;
@@ -371,9 +380,9 @@ class Net_Traceroute_Result
     /**
     * Factory for Net_Traceroute_Result
     *
+    * @param  array  $result      Net_Traceroute result
+    * @param  string $sysname     OS_Guess::sysname
     * @access public
-    * @param array $result Net_Traceroute result
-    * @param string $sysname OS_Guess::sysname
     */
     function factory($result, $sysname)
     {
@@ -388,7 +397,7 @@ class Net_Traceroute_Result
     * Preparation method for _parseResult
     *
     * @access private
-    * @param string $sysname OS_Guess::sysname
+    * @param  string $sysname     OS_Guess::sysname
     * $return bool
     */
     function _prepareParseResult($sysname)
@@ -400,6 +409,8 @@ class Net_Traceroute_Result
     /**
     * Delegates the parsing routine according to $this->_sysname
     *
+    * @see    _parseResultlinux()
+    * @see    _parseResultwindows()
     * @access private
     */
     function _parseResult()
@@ -410,8 +421,8 @@ class Net_Traceroute_Result
     /**
     * Parses the output of Linux' traceroute command
     *
+    * @see    _parseResult()
     * @access private
-    * @see _parseResultlinux
     */
     function _parseResultlinux()
     {
@@ -468,8 +479,8 @@ class Net_Traceroute_Result
     /**
     * Parses the output of Windows' traceroute command
     *
+    * @see    _parseResult()
     * @access private
-    * @see _parseResultwindows
     */
     function _parseResultwindows()
     {
@@ -556,8 +567,8 @@ class Net_Traceroute_Result
     /**
     * Returns a Traceroute_Result property
     *
-    * @param string $name property name
-    * @return mixed property value
+    * @param  string $name    property name
+    * @return mixed           property value
     * @access public
     */
     function getValue($name)
@@ -566,11 +577,11 @@ class Net_Traceroute_Result
     }
 
     /**
-    * Accessor for $this->_target_ip;
+    * Returns the target IP from parsed result
     *
-    * @return string IP address
+    * @return string          IP address
+    * @see    _target_ip
     * @access public
-    * @see Net_Traceroute_Result::_target_ip
     */
     function getTargetIp()
     {
@@ -578,11 +589,11 @@ class Net_Traceroute_Result
     }
 
     /**
-    * Accessor for $this->_hops;
+    * Returns hops from parsed result
     *
-    * @return array Hops
-    * @access private
-    * @see Net_Traceroute_Result::_hops
+    * @return array           Hops
+    * @see    _hops
+    * @access public
     */
     function getHops()
     {
@@ -590,11 +601,11 @@ class Net_Traceroute_Result
     }
 
     /**
-    * Accessor for $this->_ttl;
+    * Returns TTL from parsed result
     *
-    * @return int TTL
-    * @access private
-    * @see Net_Traceroute_Result::_ttl
+    * @return int             TTL
+    * @see    _ttl
+    * @access public
     */
     function getTTL()
     {
@@ -602,11 +613,11 @@ class Net_Traceroute_Result
     }
 
     /**
-    * Accessor for $this->_raw_data;
+    * Returns raw data that was returned by traceroute
     *
-    * @return array raw data
-    * @access private
-    * @see Net_Traceroute_Result::_raw_data
+    * @return array           raw data
+    * @see    _raw_data
+    * @access public
     */
     function getRawData()
     {
@@ -614,11 +625,11 @@ class Net_Traceroute_Result
     }
 
     /**
-    * Accessor for $this->_sysname;
+    * Returns sysname that was "guessed" (OS on which class is running)
     *
-    * @return string OS_Guess::sysname
-    * @access private
-    * @see Net_Traceroute_Result::_sysname
+    * @return string          OS_Guess::sysname
+    * @see    _sysname
+    * @access public
     */
     function getSystemName()
     {

@@ -18,6 +18,7 @@
     <state>alpha</state>
     <notes>
       * moved docs/sample.php to docs/examples/example1.php to comply with PEAR-rules
+      * added README/TODO
     </notes>
     <filelist>
       <dir name="/" baseinstalldir="Net">
