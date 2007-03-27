@@ -539,6 +539,7 @@ class Net_Traceroute_Result
             $hop['responsetimes'] = $responsetimes;
 
             $machineparts = explode(' ', rtrim(substr($this->_raw_data[$dataRow], 32)));
+            // if we can find a next hop it's name/ip will be here
             if (count($machineparts) == 1) {
                 $hop['ip'] = trim($machineparts[0], ' ()[]');
             } elseif (count($machineparts) == 2) {
@@ -547,18 +548,6 @@ class Net_Traceroute_Result
             }
             // otherwise we've got an errormessage or something here ... like "time limit exceeded"
 
-            // if we can find a next hop it's name/ip will be here
-            if (count($parts) > 0) {
-                // get machine/ip
-                $machineparts = explode(' ', $parts[0]);
-                if (count($machineparts) > 0) {
-                    $hop['machine'] = $machineparts[0];
-                    $hop['ip']      = trim($machineparts[1], ' ()');
-                } else {
-                    $hop['ip']      = $machineparts[0];
-                }
-                array_shift($parts);
-            }
             $hops[] = $hop;
             $dataRow++;
         }
