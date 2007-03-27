@@ -402,8 +402,9 @@ class Net_Traceroute_Result
     */
     function _prepareParseResult($sysname)
     {
-        return in_array(strtolower('_parseresult'.$sysname),
-                        get_class_methods('Net_Traceroute_Result'));
+        $methods = array_values(array_map('strtolower', get_class_methods('Net_Traceroute_Result')));
+        return in_array(strtolower('_parseResult'.$sysname),
+                        $methods);
     }
 
     /**
