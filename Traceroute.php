@@ -232,7 +232,11 @@ class Net_Traceroute
 
         foreach ($this->_args AS $option => $value) {
             if (!empty($option) && !is_null($this->_argRelation[$this->_sysname][$option])) {
-                ${$option} = $this->_argRelation[$this->_sysname][$option]." ".escapeshellarg($value)." ";
+                if(empty($value)) {
+                    ${$option} = $this->_argRelation[$this->_sysname][$option];
+                } else {
+                    ${$option} = $this->_argRelation[$this->_sysname][$option]." ".escapeshellarg($value)." ";
+                }
             }
         }
 
