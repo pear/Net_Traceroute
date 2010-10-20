@@ -238,8 +238,8 @@ class Net_Traceroute
 
         switch($this->_sysname) {
         case "linux":
-            $retval[0] = $numeric.$ttl.$deadline." 2>&1";
-            $retval[1] = "";
+            $retval[0] = $numeric.$ttl.$deadline;
+            $retval[1] = "2>&1";
             break;
 
         case "windows":
